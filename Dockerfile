@@ -8,5 +8,5 @@ RUN go build -o main index.go
 
 FROM alpine:latest
 WORKDIR /tmp
-COPY --from:build /Example/main .
+COPY --from=build /Example/main .
 CMD ["./main"]

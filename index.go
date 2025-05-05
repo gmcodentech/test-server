@@ -6,7 +6,7 @@ import (
 )
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, This is A DOCKER Learner! Able to push the code to github")
+	fmt.Fprintf(w, "Hello, This is A DOCKER Learner! Able to push an optimized docker image")
 }
 
 func main() {
