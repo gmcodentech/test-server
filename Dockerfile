@@ -7,6 +7,6 @@ RUN go build -o main index.go
 
 
 FROM alpine:latest
-WORKDIRE /tmp
+WORKDIR /tmp
 COPY --from:build /Example/main .
 CMD ["./main"]
