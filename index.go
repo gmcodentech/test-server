@@ -1,21 +1,38 @@
 package main
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
 )
 
-func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello, This is A DOCKER Learner! Able to push an optimized docker image")
+type Person struct {
+	Name string `json:"name"`
+	Age  int    `json:"age"`
 }
 
-func handlerHello(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hello,How are you?")
+func returnJSON() ([]byte, error) {
+	person := Person{Name: "ABC XYZ", Age: 33}
+	jsonData, err := json.Marshal(person)
+	if err != nil {
+		return nil, err
+	}
+	return jsonData, nil
+}
+
+func handler(w http.ResponseWriter, r *http.Request) {
+	jsonData, err := returnJSON()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+	w.Header().Set("Content-Type", "application/json")
+    w.WriteHeader(http.StatusOK)
+	w.Write(jsonData)
 }
 
 func main() {
-	fmt.Println("started server...")
 	http.HandleFunc("/", handler)
-	http.HandleFunc("/hello", handlerHello)
+	fmt.Println("Server listening on port 8080")
 	http.ListenAndServe(":8080", nil)
 }
